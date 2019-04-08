@@ -128,7 +128,8 @@ class Board {
         for (let i = 0; i < BSIZE; i++) {
             tr += "<tr id='r" + i + "'>"
             for (let j = 0; j < BSIZE; j++) {
-                tr += "<td id='c" + j + "' onclick='move("+ count++ +")'>" + this.board[i * BSIZE + j] + "</td>"
+                var val = this.board[i * BSIZE + j];
+                tr += "<td id='c" + j + "' onclick='move("+ count++ +")'>" + val == 0 ? '' : val + "</td>"
             }
             tr += "</tr>";
         }
