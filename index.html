@@ -25,11 +25,7 @@
         <input type="button" value="new 4x4" onclick="newBoard(4)">
         <input type="button" value="Show Suggested Solution" onclick="drawAnswer()">
         <input type="number" id="looptime" value="" placeholder="time:10000*size^2">
-        <table id="solution">
-            <tr>
-                <td>Step</td>
-                <td>Move</td>
-            </tr>
+        <table id="solution" style="max-height: 600px; overflow: scroll;">
         </table>
     </div>
 </body>
@@ -98,7 +94,7 @@ function drawAnswer(){
     });
         
     var el = document.getElementById('solution');
-    var temp = '<tr><td>Step</td><td>Move</td></tr>';
+    var temp = '<tr><th>Step</th><th>Move</th></tr>';
 
     answer.forEach((ans,i)=>{
         temp+='<tr>';
