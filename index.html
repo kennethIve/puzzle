@@ -1,15 +1,15 @@
 <head>
 </head>
 <style>
-    table,
     tr,
     td {
         border: 1px solid black;
     }
 
-    .board table,
+    table.board ,
     .board tr,
     .board td {
+        border: 1px solid black;
         font-size: 20pt;
         text-align: center;
     }
@@ -34,17 +34,19 @@
     .flex-container>div {
         margin: 10px;
         text-align: center;
+        border: 1px solid black;
     }
 </style>
 
 <body>
-    <table id="grid" class="board">
-    </table>
-    <input type="button" value="new 3x3" onclick="newBoard(3)">
-    <input type="button" value="new 4x4" onclick="newBoard(4)">
-    <input type="button" value="Show Suggested Solution" onclick="drawAnswer()">
-    <input type="number" id="looptime" value="" placeholder="time:10000*size^2">
-    <div id="solution" class="flex-container"></div>
+<table id="grid" class="board">
+</table>
+<pre>
+<input type="button" value="new 3x3" onclick="newBoard(3)"><input type="button" value="new 4x4" onclick="newBoard(4)">
+<input type="button" value="Show Suggested Solution" onclick="drawAnswer()"> Time limit:<input type="number" id="looptime" value="" placeholder="default:10000*size^2">
+<strong style="color:red;">getting 4x4 best solution may exceed the default loop time limit.</strong>
+</pre>
+<div id="solution" class="flex-container"></div>
 </body>
 <script src="puzzle.js"></script>
 <script>
@@ -104,8 +106,8 @@
             var el = document.getElementById('solution');
             var temp = '';
             step.forEach((arr, aidx) => {
-                temp += '<div><table><tr><td>Step ' + aidx + '</td></tr>';
-                temp += '<tr><td><table>';
+                temp += '<div>step' + aidx + '';
+                temp += '<table border="0">';
                 for (var i = 0; i < BSIZE; i++) {
                     temp += "<tr>"
                     for (var j = 0; j < BSIZE; j++) {
@@ -113,7 +115,7 @@
                     }
                     temp += '</tr>';
                 }
-                temp += '</table></td></tr></table></div>';
+                temp += '</table></div>';
             });
             el.innerHTML = temp;
         }, 0);
