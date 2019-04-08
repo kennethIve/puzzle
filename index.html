@@ -45,7 +45,7 @@
     <tr><td></td><td></td><td></td></tr>
 </table>
 <pre>
-<input type="button" value="new 3x3" onclick="newBoard(3)"><input type="button" value="new 4x4" onclick="newBoard(4)">
+<input type="button" value="new 3x3 puzzle" onclick="newBoard(3)"><input type="button" value="new 4x4 puzzle" onclick="newBoard(4)">
 <input type="button" value="Show Suggested Solution" onclick="drawAnswer()"> Time limit:<input type="number" id="looptime" value="" placeholder="default:10000*size^2">
 <strong style="color:red;">getting 4x4 suggested solution may take a long time and exceed the default loop time limit.</strong>
 </pre>
@@ -59,7 +59,6 @@
     var possibleMoveArr = [];
 
     function newBoard(size) {
-        loopTime = parseInt(document.getElementById('looptime').value) || 10000 * size * size;
         BSIZE = size;
         table = new Board(BSIZE);
         table.randPermin();
@@ -99,6 +98,7 @@
 
     function drawAnswer() {
         setTimeout(function () {
+            loopTime = parseInt(document.getElementById('looptime').value) || 10000 * size * size;
             answer = [];
             ans = table.gameTree();
             let a = ans;
@@ -123,18 +123,5 @@
             });
             el.innerHTML = temp;
         }, 0);
-
     }
-
-
-    /*
-    //possibleMove(4);
-
-    y/x | 0  1  2  3
-    ----|-------------
-      0 | 0  1  2  3
-      1 | 4  5  6  7
-      2 | 8  9  10 11
-      3 | 12 13 14 15
-    */
 </script>
