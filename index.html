@@ -20,12 +20,12 @@
 <body>
     <table id="grid" class="board">
     </table>
-    <div style="max-height: 500px; overflow: scroll;">
         <input type="button" value="new 3x3" onclick="newBoard(3)">
         <input type="button" value="new 4x4" onclick="newBoard(4)">
         <input type="button" value="Show Suggested Solution" onclick="drawAnswer()">
         <input type="number" id="looptime" value="" placeholder="time:10000*size^2">
-        <table id="solution">
+        <div style="max-height: 500px; overflow: scroll;">
+            <table id="solution">
         </table>
     </div>
 </body>
