@@ -1,128 +1,126 @@
 <head>
 </head>
 <style>
-    table, tr, td {
-        border:1px solid black;
-    }   
-    .board table, .board tr, .board td{
-        font-size:20pt;
+    table,
+    tr,
+    td {
+        border: 1px solid black;
+    }
+
+    .board table,
+    .board tr,
+    .board td {
+        font-size: 20pt;
         text-align: center;
     }
-    .board td{
+
+    .board td {
         width: 40px;
         height: 40px;
     }
-    .board td:hover{
+
+    .board td:hover {
         background-color: green;
         cursor: pointer;
     }
 </style>
+
 <body>
     <table id="grid" class="board">
     </table>
-        <input type="button" value="new 3x3" onclick="newBoard(3)">
-        <input type="button" value="new 4x4" onclick="newBoard(4)">
-        <input type="button" value="Show Suggested Solution" onclick="drawAnswer()">
-        <input type="number" id="looptime" value="" placeholder="time:10000*size^2">
-        <div style="max-height: 500px; overflow: auto;">
-            <table id="solution">
+    <input type="button" value="new 3x3" onclick="newBoard(3)">
+    <input type="button" value="new 4x4" onclick="newBoard(4)">
+    <input type="button" value="Show Suggested Solution" onclick="drawAnswer()">
+    <input type="number" id="looptime" value="" placeholder="time:10000*size^2">
+    <div style="max-height: 500px; overflow: auto;">
+        <table id="solution">
         </table>
     </div>
 </body>
 <script src="puzzle.js"></script>
 <script>
-//main
-var table = new Board(BSIZE);
-var answer = []
-var possibleMoveArr = [];
-function newBoard(size){
-    loopTime = parseInt(document.getElementById('looptime').value) || 10000 * size * size;   
-    BSIZE = size;
-    table = new Board(BSIZE);
-    table.randPermin();
-    table.drawGrid();
-    possibleMoveArr = possibleMove(BSIZE);
-}
+    //main
+    var table = new Board(BSIZE);
+    var answer = []
+    var possibleMoveArr = [];
 
-function possibleMove(size){
-    var result = [];
-    var count = 0;
-    for(var y = 0; y < size; y++){
-        for(var x = 0; x < size; x++) {
-            var move = [];
-            move.push((y === 0) ? -1 : count - size);
-            move.push((x + 1 <= size - 1) ? count + 1 : -1);
-            move.push((y === size - 1) ? -1 : count + size);
-            move.push((x - 1 >= 0) ? count - 1 : -1);
-            result.push(move);
-            count++;
-        }  
+    function newBoard(size) {
+        loopTime = parseInt(document.getElementById('looptime').value) || 10000 * size * size;
+        BSIZE = size;
+        table = new Board(BSIZE);
+        table.randPermin();
+        table.drawGrid();
+        possibleMoveArr = possibleMove(BSIZE);
     }
-    return result;
-}
 
-function move(index){
-    
-    for(var i=0; i < possibleMoveArr[index].length; i++){
-        
-        if(table.board[possibleMoveArr[index][i]] === 0){
-            table.swap(possibleMoveArr[index][i], index);
-            table.drawGrid();
-            if(table.isGoal()) alert('This is goal state.');
-            return;
+    function possibleMove(size) {
+        var result = [];
+        var count = 0;
+        for (var y = 0; y < size; y++) {
+            for (var x = 0; x < size; x++) {
+                var move = [];
+                move.push((y === 0) ? -1 : count - size);
+                move.push((x + 1 <= size - 1) ? count + 1 : -1);
+                move.push((y === size - 1) ? -1 : count + size);
+                move.push((x - 1 >= 0) ? count - 1 : -1);
+                result.push(move);
+                count++;
+            }
+        }
+        return result;
+    }
+
+    function move(index) {
+        for (var i = 0; i < possibleMoveArr[index].length; i++) {
+            if (table.board[possibleMoveArr[index][i]] === 0) {
+                table.swap(possibleMoveArr[index][i], index);
+                table.drawGrid();
+                if (table.isGoal()) alert('This is goal state.');
+                return;
+            }
         }
     }
-}
-var ans;
-function drawAnswer(){
-    answer = [];
-    ans = table.gameTree();
-    var depth=0;
-    let a = ans;
-    var step = []; //complete step of the 8 puzzle
-    while(a.parent != null){
-        step.unshift(a.arr);
-        a = a.parent;
-    }
-    step.unshift(a.arr);
-    var answer = [];
-    step.forEach(element =>{
-        var temp = [];
-        while(element.length) 
-            temp.push(element.splice(0,BSIZE));
-        answer.push(temp);
-    });
-        
-    var el = document.getElementById('solution');
-    var temp = '<tr><th>Step</th><th>Move</th></tr>';
+    var ans;
 
-    answer.forEach((ans,i)=>{
-        temp+='<tr>';
-        temp+='<td>'+(i+1)+'</td><td>';
-        temp+='<table>';
-        ans.forEach(row=>{
-            temp+='<tr>';
-            row.forEach(col=>{
-                temp+='<td>'+col+'</td>';
+    function drawAnswer() {
+        setTimeout(function () {
+            answer = [];
+            ans = table.gameTree();
+            let a = ans;
+            var step = []; //complete step of the 8 puzzle
+            while (a.parent != null) {
+                step.unshift(a.arr);
+                a = a.parent;
+            }
+            var el = document.getElementById('solution');
+            var temp = '<tr><th>Step</th><th>Move</th></tr>';
+            step.forEach((arr,aidx)=>{
+                temp += '<tr>';
+                temp += '<td>' + aidx + '</td><td>';
+                temp += '<table>';
+                for(var i=0; i<BSIZE; i++){
+                    temp += "<tr>"
+                    for(var j=0; j<BSIZE; j++)
+                        temp += "<td>" + (arr[i * BSIZE + j] === 0 ? '' : arr[i * BSIZE + j]) + "</td>"
+                    temp += '</tr>';
+                }
+                temp += '</table>';
+                temp += '</td></tr>';
             });
-            temp+='</tr>';
-        });
-        temp+='</table>';
-        temp+='</td></tr>'; 
-    });
-    el.innerHTML = temp;
-}
+            el.innerHTML = temp;
+        }, 0);
+
+    }
 
 
-/*
-//possibleMove(4);
+    /*
+    //possibleMove(4);
 
-y/x | 0  1  2  3
-----|-------------
-  0 | 0  1  2  3
-  1 | 4  5  6  7
-  2 | 8  9  10 11
-  3 | 12 13 14 15
-*/
-
+    y/x | 0  1  2  3
+    ----|-------------
+      0 | 0  1  2  3
+      1 | 4  5  6  7
+      2 | 8  9  10 11
+      3 | 12 13 14 15
+    */
 </script>
