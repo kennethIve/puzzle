@@ -23,6 +23,18 @@
         background-color: green;
         cursor: pointer;
     }
+
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: 500px; 
+        overflow: auto;
+    }
+
+    .flex-container>div {
+        margin: 10px;
+        text-align: center;
+    }
 </style>
 
 <body>
@@ -32,10 +44,7 @@
     <input type="button" value="new 4x4" onclick="newBoard(4)">
     <input type="button" value="Show Suggested Solution" onclick="drawAnswer()">
     <input type="number" id="looptime" value="" placeholder="time:10000*size^2">
-    <div style="max-height: 500px; overflow: auto;">
-        <table id="solution">
-        </table>
-    </div>
+    <div id="solution" class="flex-container"></div>
 </body>
 <script src="puzzle.js"></script>
 <script>
@@ -93,19 +102,18 @@
                 a = a.parent;
             }
             var el = document.getElementById('solution');
-            var temp = '<tr><th>Step</th><th>Move</th></tr>';
-            step.forEach((arr,aidx)=>{
-                temp += '<tr>';
-                temp += '<td>' + aidx + '</td><td>';
-                temp += '<table>';
-                for(var i=0; i<BSIZE; i++){
+            var temp = '';
+            step.forEach((arr, aidx) => {
+                temp += '<div><table><tr><td>Step ' + aidx + '</td></tr>';
+                temp += '<tr><td><table>';
+                for (var i = 0; i < BSIZE; i++) {
                     temp += "<tr>"
-                    for(var j=0; j<BSIZE; j++)
+                    for (var j = 0; j < BSIZE; j++) {
                         temp += "<td>" + (arr[i * BSIZE + j] === 0 ? '' : arr[i * BSIZE + j]) + "</td>"
+                    }
                     temp += '</tr>';
                 }
-                temp += '</table>';
-                temp += '</td></tr>';
+                temp += '</table></td></tr></table></div>';
             });
             el.innerHTML = temp;
         }, 0);

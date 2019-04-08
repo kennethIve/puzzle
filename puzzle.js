@@ -124,11 +124,10 @@ class Board {
     drawGrid() {
         var g = document.getElementById("grid");
         var tr = "";
-        var count = 0;
         for (let i = 0; i < BSIZE; i++) {
             tr += "<tr id='r" + i + "'>"
             for (let j = 0; j < BSIZE; j++) {
-                tr += "<td id='c" + j + "' onclick='move("+ count++ +")'>" + (this.board[i * BSIZE + j] === 0 ? '' : this.board[i * BSIZE + j]) + "</td>"
+                tr += "<td id='c" + j + "' onclick='move("+ (i * BSIZE + j) +")'>" + (this.board[i * BSIZE + j] === 0 ? '' : this.board[i * BSIZE + j]) + "</td>";
             }
             tr += "</tr>";
         }
