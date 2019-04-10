@@ -98,7 +98,7 @@
 
     function drawAnswer() {
         setTimeout(function () {
-            loopTime = parseInt(document.getElementById('looptime').value) || 10000 * size * size;
+            loopTime = parseInt(document.getElementById('looptime').value) || 10000 * BSIZE * BSIZE;
             answer = [];
             ans = table.gameTree();
             let a = ans;
