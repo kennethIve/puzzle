@@ -1,4 +1,5 @@
 //global variable setting
+//i try yo push now !@!!!!!!!!!!!!!!!!!!!!!!!!
 var count;
 var pq;
 var root;
