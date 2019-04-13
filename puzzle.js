@@ -59,15 +59,26 @@ class Board {
         this.size = x;
         this.num = x * x - 1;
         this.board = new Array((this.num + 1));
+        this.uiGoal = [];
+        this.uiBoard = [];
         //create the board and the checking list
         for (var index = 0; index < this.board.length - 1; index++) {
             this.board[index] = index + 1;
         }
         this.board[this.num] = 0;
         this.goal = this.board.slice();
+        this.uiGoal = this.board.slice();//for the show the goal grid 
     }
     randPermin() {
         var a, b; // index of the array
+        for (let i = 0; i < this.num; i++) {
+            a = Math.floor(Math.random() * (this.num + 1));
+            b = Math.floor(Math.random() * (this.num + 1));
+            var temp = this.uiGoal[a];
+            this.uiGoal[a] = this.uiGoal[b];
+            this.uiGoal[b] = temp;
+            
+        }
         do {
             for (let i = 0; i < this.num; i++) {
                 a = Math.floor(Math.random() * (this.num + 1));
@@ -78,6 +89,7 @@ class Board {
             }
             //console.log(this.board);
         } while (!this.isSolvable());
+        this.uiBoard = this.board.slice();
         //this.board = [0,1,3,4,2,5,7,8,6]; simple case
         //this.board = [8,6,7,2,5,4,3,0,1]//hard 8 puzzle
         //this.board = [1,2,3,4,5,6,8,7,0];//false case
